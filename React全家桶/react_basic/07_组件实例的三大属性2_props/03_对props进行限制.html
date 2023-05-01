@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>批量传递props</title>
+  </head>
+  <body>
+    <!-- 创建一个容器 -->
+    <div id="test1"></div>
+    <div id="test2"></div>
+    <div id="test3"></div>
+    <!-- 引入react核心库 -->
+    <script src="../js/react.development.js"></script>
+    <!-- 引入react-dom，用于支持react操作DOM -->
+    <script src="../js/react-dom.development.js"></script>
+    <!-- 引入babel，用于将es6转为es5 -->
+    <script src="../js/babel.min.js"></script>
+    <!-- 引入props-type，用于对props做类型必要性的限制，以及指定默认值 -->
+    <script src = "../js/prop-types.js"></script>
+    <script type="text/babel">
+      // 新建一个组件
+      class Person extends React.Component{
+        render() {
+          const { name, age, sex } = this.props;
+          return (
+            <ul>
+              <li>{name}</li>
+              <li>{age}</li>
+              <li>{sex}</li>
+            </ul>
+          );
+        }
+      }
+      // 对props的类型和必要性进行限制
+      Person.propTypes = {
+        name:PropTypes.string.isRequired, // 限制name必传，且为字符串
+        age:PropTypes.number, // 限制age为number类型
+        sex:PropTypes.string, // 限制sex为string类型
+        speak:PropTypes.func // 限制speak为函数类型
+      }
+      // 对props的默认值做出限制
+      Person.defaultProps = {
+        sex:"男", // sex的默认值为男
+        age:18 // age的默认值为18
+      }
+      //   渲染组件
+      ReactDOM.render(<Person name = "luis" age= {24} sex = "女"/>,document.getElementById("test1"));
+      ReactDOM.render(<Person name = "jeren" sex = "男"/>,document.getElementById("test2"))
+      const p1 = { name: "老刘", age: 23,speak:()=>{
+        console.log("我说话了");
+      }};
+      ReactDOM.render(<Person {...p1} />, document.getElementById("test3"));
+    </script>
+  </body>
+</html>

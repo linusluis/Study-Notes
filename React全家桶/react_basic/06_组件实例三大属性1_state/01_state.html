@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02_使用js创建虚拟DOM</title>
+  </head>
+  <body>
+    <!-- 准备好一个容器 -->
+    <div id="test"></div>
+    <!-- 引入react核心库-->
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <!-- 引入react-dom，用于支持react操作DOM -->
+    <script
+      type="text/javascript"
+      src="../js/react-dom.development.js"
+    ></script>
+    <!-- 引入babel,用于将jsx转为js -->
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+    <script type="text/babel">
+      // 此处一定要写babel,脚本中要写jsx，需要标注用babel将jsx转为js
+      // 1. 创建类式组件
+      class Weather extends React.Component {
+        constructor(props) {
+          // 构造器中的this 是类的实例对象
+          super(props);
+          this.state = { isHot: true };
+          //   解决changeWeather中this指向问题
+          this.changeWeather = this.changeWeather.bind(this);
+        }
+        render() {
+          // render方法放在了类的原型对象上，供实例对象使用
+          // render方法中的this，是实例对象。
+          const { isHot } = this.state;
+          return (
+            <h1 onClick={this.changeWeather}>
+              今天天气很{isHot ? "炎热" : "凉爽"}
+            </h1>
+          );
+        }
+        changeWeather() {
+          // react中的state不能直接更改，下面这行就属于直接更改
+          const { isHot } = this.state;
+          // this.state.isHot = !isHot;
+          // react中的state必须通过setState进行更新，且更新是一种合并而不是替换
+          this.setState({isHot:!isHot});
+        }
+      }
+      // 2. 渲染组件到页面
+      ReactDOM.render(<Weather />, document.getElementById("test"));
+    </script>
+  </body>
+</html>

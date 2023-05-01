@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script type = "text/javascript">
+        // 创建一个Person类
+        class Person{
+            // 构造器方法
+            constructor(name,age){
+                // 构造器中的this是谁？类的实例对象
+                this.age = age;
+                this.name = name;
+            }
+            // 一般方法
+            speak(){
+                // speak方法放在了哪里？类的原型对象上，供实例使用
+                // 通过Person实例，调用speak时，speak中的this就是Person实例,call调用除外
+                console.log(`我叫${this.name},我年龄是${this.age}`)
+            }
+        }
+        class Student extends Person{
+            constructor(name,age,score){
+                super(name,age);
+                this.score = score;
+            }
+            // 父类方法的重写，一旦重写子类实例就无法访问到父类中被重写的方法了。
+
+            speak(){
+                console.log(`我叫${this.name},我年龄是${this.age}，我的成绩是${this.score}`)
+            }
+            slogon = "我们都是学生"; // slogon类的自身访问不到，但是它的实例可以访问到
+            static c= '123'; // c是类的静态属性，只有类自身可以访问到
+        }
+        // 创建一个Person实例对象
+        const person1 = new Person('Tom',18);
+        const person2 = new Person('Jerry',19);
+        const student1 = new Student("Petter",17,'A+');
+        console.log({person1});
+        console.log({person2});
+        console.log({student1});
+        console.log(student1.slogon); // 我们都是学生
+        console.log(student1.c); // undefined
+        console.log(Student.c) // 123
+        student1.speak(); // 我叫Petter,我年龄是17，我的成绩是A+
+        person1.speak(); // 我叫Tom,我年龄是18
+        person2.speak(); // 我叫Jerry,我年龄是19
+        person2.speak.call({a:1,b:2}) // 我叫undefined,我年龄是undefined
+    </script>
+</body>
+</html>

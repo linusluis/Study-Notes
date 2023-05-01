@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- 准备好一个容器 -->
+    <div id="test1"></div>
+    <div id="test2"></div>
+    <div id="test3"></div>
+    <!-- 引入react核心库 -->
+    <script src="../js/react.development.js"></script>
+    <!-- 引入react-dom，用于渲染DOM -->
+    <script src="../js/react-dom.development.js"></script>
+    <!-- 引入babel，用于将jsx转为js es6转为es5-->
+    <script src="../js//babel.min.js"></script>
+    <script type="text/babel">
+      // 创建组件
+      class Person extends React.Component {
+        render() {
+          const { name, age, sex } = this.props;
+          return (
+            <ul>
+              <li>{name}</li>
+              <li>{age}</li>
+              <li>{sex}</li>
+            </ul>
+          );
+        }
+      }
+      // 渲染组件到页面
+      ReactDOM.render(<Person name="luis" age = {24} sex = "男"/>,document.getElementById('test1'));
+      ReactDOM.render(<Person name="winnie" age = {37} sex = "女"/>,document.getElementById('test2'));
+      ReactDOM.render(<Person name="老刘" age = {24} sex = "男"/>,document.getElementById('test3'));
+    </script>
+  </body>
+</html>
