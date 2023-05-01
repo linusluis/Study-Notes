@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="box">点我</div>
+    <script type="text/javascript">
+      // this关键字代表当前函数的执行上下文对象。
+      // 一、在全局作用域下this的指向问题
+      // 全局作用域下，this指向全局对象，即window对象
+
+      // console.log(this); // window
+
+      // 二、在函数中的this指向问题
+      // 结论：
+      // 在函数中的this指向谁，取决于是谁调用这个函数
+      // 1. 以函数的形式调用，this永远都是window
+      // 2. 以方法的形式调用时，this就是调用这个方法的对象
+      // 3. 当以构造函数调用时，this就是新创建的那个对象
+      // 4. 使用call 和 apply 调用函数时，this是指定的那个对象
+      // 5. 在事件的响应函数中，响应函数是给谁绑定的this就是谁。但是，如果函数是通过箭头函数定义的，this是函数所在作用域下的this
+      // 6. setTimeout和setInterval中的this指向的是window
+      // 7. 箭头函数的this是所在作用域下的this
+
+      var name = "Global name";
+      const fun = function () {
+        const name = "Name in fun";
+        console.log(this.name); // Global name
+      };
+      fun(); // 以函数形式调用，this是window
+
+      const obj = {
+        name: "luis",
+        age: "25",
+        eat() {
+          console.log(`${this.name} eat an apple`); // luis eat an apple
+        },
+      };
+      obj.eat(); // 以方法的形式调用，this是obj对象
+
+      function Person(name, age) {
+        this.name = name;
+        this.age = age;
+        console.log(this.name); // James
+      }
+      const p1 = new Person("James", 38); // 以构造函数的方式调用，this是新创建的对象
+
+      const obj2 = {
+        name: "Harden",
+        age: 30,
+        onClick: () => {
+          console.log(this);
+        },
+      };
+      fun.call(obj2); // Harden 使用call 或者apply调用函数，this是指定的对象
+
+      const box = document.getElementById("box");
+    //   box.addEventListener('click',function(){
+    //       console.log(this); // <div id="box">点我</div>
+    //   })
+      box.addEventListener("click", () => {
+        console.log(this); // Window对象
+      });
+    </script>
+  </body>
+</html>
